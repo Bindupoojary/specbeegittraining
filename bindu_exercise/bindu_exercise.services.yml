@@ -1,0 +1,4 @@
+services:                          # defining a new service
+  custom_service:                  #the name of the service we are defining
+    class : Drupal\bindu_exercise\CustomService   # class name of the CustomService class.
+    arguments: ['@config.factory']               #specifies the arguments that will be passed to the constructor of the CustomService class.

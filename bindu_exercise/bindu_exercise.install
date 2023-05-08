@@ -1,0 +1,36 @@
+<?php
+// update => module reinstallation not required.
+/**
+ * implements hook_schema().
+ */
+
+function bindu_exercise_schema() {                       #
+    $schema['user_task'] = [                             #
+        'description' => 'Stores user details',          #
+        'fields' => [                                    #
+
+            'firstname' => [
+                'description' => 'Firstname of the user',
+                'type' => 'varchar',
+                'length' => 60,
+                'not null' => true,
+            ],
+            'email' => [
+                'description' => 'Email of the user',
+                'type' => 'varchar',
+                'length' => 60,
+                'not null' => true,
+            ],
+            'gender' => [
+                'description' => 'gender of the user',
+                'type' => 'varchar',
+                'length' => 60,
+                'not null' => true,
+            ],
+        ],
+        'primary key' => ['firstname'],
+    ];
+    return $schema;
+}
+
+

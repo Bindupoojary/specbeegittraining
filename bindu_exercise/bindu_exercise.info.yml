@@ -1,0 +1,5 @@
+name: 'bindu exercise'               # This is the name of the module.
+description: ' new exercise description'    # A brief description of what the module does.
+type: module                           # This indicates that this is a module.
+core_version_requirement: ^9 || ^10    # This specifies the minimum version of Drupal core that the module requires.
+version: 9.x-1.0                       # This module is of version 1.0 and is compatible with Drupal 9.x.

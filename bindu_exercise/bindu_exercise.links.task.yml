@@ -1,0 +1,16 @@
+bindu_exercise.custom_form:
+  route_name: bindu_exercise.custom_form
+  title: 'custom page'
+  base_route: bindu_exercise.custom_form
+
+bindu_exercise.config.custom:
+  route_name: config.custom
+  title: 'config'
+  base_route: bindu_exercise.custom_form
+
+bindu_exercise.hello_world:
+ route_name: bindu_exercise.hello_world
+ title: 'controller'
+ base_route: bindu_exercise.custom_form
+
+

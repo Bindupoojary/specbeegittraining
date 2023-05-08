@@ -1,0 +1,27 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Entity\EntityInterface;
+
+
+
+function bindu_exercise_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+     // $route = \Drupal::routeMatch()->getRouteName();
+     // print_r($route);
+      //exit;
+
+
+}
+function bindu_exercise_theme($existing, $type, $theme, $path) {   # hook implementation which allows defining a custom theme function that can be used in templates
+
+      return [
+            'block_plugin_template' => [                   #heme function takes two variables - text and hexcode
+                'variables' => [
+                     'text' => "",                             #The text variable is initially set to an empty string,
+                     'hexcode' =>"#C8A2C8",                #hexcode variable is set to the color code #ADD8E6.
+                 ],
+            ],
+        ];
+
+    }

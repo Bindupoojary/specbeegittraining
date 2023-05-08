@@ -1,0 +1,25 @@
+bindu_exercise.hello_world:                                       #route named
+  path: '/hello/task'                                              #This is the URL path.
+  defaults:                                                         #when the URL is entered it will call this path
+    _controller: '\Drupal\bindu_exercise\Controller\CustomController::hello'
+    _title: 'Hello World'                                           #provides title for the page
+  requirements:                                                     #conditions that must be met for the route to be matched
+    _permission: 'access content'                                   #provides access to all users.
+
+bindu_exercise.custom_form:                                       #route named
+  path: "/get-user/deta"                                         #This is the URL path.
+  defaults:                                                         #when the URL is entered it will call this path
+    _form: '\Drupal\bindu_exercise\Form\CustomForm'
+    _title: "Custom Form to get user details"                       #provides title for the page.
+  requirements:                                                     # conditions that must be met for the route to be matched
+    _permission: 'access content'                                   #provides access to all users.
+
+config.custom:
+  path: '/config/form'
+  defaults:
+    _form: '\Drupal\bindu_exercise\Form\CustomConfigForm'
+    _title: 'Custom Configuration Form'
+  requirements:
+    _permission: 'administer site configuration'
+  options:
+    _admin_route: TRUE                                              #admin route enable.

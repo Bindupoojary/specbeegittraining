@@ -1,0 +1,6 @@
+add_content.article:
+  route_name: "config.custom"
+  title: "Config form"
+  appears_on:
+    - "bindu_exercise.custom_form"
+

@@ -1,0 +1,5 @@
+css_lib:
+  version: 1.x
+  css:
+    theme:
+      CSS/style.css: {}

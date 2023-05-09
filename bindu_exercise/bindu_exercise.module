@@ -5,14 +5,14 @@ use Drupal\Core\Entity\EntityInterface;
 
 
 
-function bindu_exercise_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+//  function bindu_exercise_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+//     $route = \Drupal::service('bindu_exercise')->getName();
+//      // $route = \Drupal::routeMatch()->getRouteName();
+//      // print_r($route);
+//       //exit;
 
-     // $route = \Drupal::routeMatch()->getRouteName();
-     // print_r($route);
-      //exit;
 
-
-}
+// }
 function bindu_exercise_theme($existing, $type, $theme, $path) {   # hook implementation which allows defining a custom theme function that can be used in templates
 
       return [

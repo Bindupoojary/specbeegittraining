@@ -1,5 +1,5 @@
 services:
-  custom_events_subscriber:
+  custom_events_subscriber:   #defines a service called custom_events_subscriber.
     class: '\Drupal\redirecting_task\EventSubscriber\Redirect'
-    tags:
-     - { name: 'event_subscriber' }
+    tags:                                    #tags key is used to assign tags to the service.
+     - { name: 'event_subscriber' }                    #it indicates that the class implements the EventSubscriberInterface

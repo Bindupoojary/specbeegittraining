@@ -2,3 +2,10 @@ services:                          # defining a new service
   custom_service:                  #the name of the service we are defining
     class : Drupal\bindu_exercise\CustomService   # class name of the CustomService class.
     arguments: ['@config.factory']               #specifies the arguments that will be passed to the constructor of the CustomService class.
+
+
+    services:
+  custom_events_user_login:
+    class: '\Drupal\bindu_exercise\EventSubscriber\UserLoginSubscriber'
+    tags:
+      - { name: 'event_subscriber' }

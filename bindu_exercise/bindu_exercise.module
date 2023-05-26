@@ -4,6 +4,26 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityInterface;
 
 
+/**
+ * @file
+ * Contains bindu_exercise.module.
+ */
+
+ use Drupal\bindu_exercise\Event\UserLoginEvent;
+
+ /**
+  * Implements hook_user_login().
+  */
+ function bindu_exercise_user_login($account) {
+   // Instantiate our event.
+   $event = new UserLoginEvent($account);
+
+   // Get the event_dispatcher service and dispatch the event.
+   $event_dispatcher = \Drupal::service('event_dispatcher');
+   $event_dispatcher->dispatch($event, UserLoginEvent::EVENT_NAME);
+ }
+
+
 
 //  function bindu_exercise_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 //     $route = \Drupal::service('bindu_exercise')->getName();

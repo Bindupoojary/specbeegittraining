@@ -4,10 +4,10 @@
  * implements hook_schema().
  */
 
-function bindu_exercise_schema() {                       #
-    $schema['user_task'] = [                             #
-        'description' => 'Stores user details',          #
-        'fields' => [                                    #
+function bindu_exercise_schema() {                       
+    $schema['user_task'] = [                             
+        'description' => 'Stores user details',          
+        'fields' => [                                    
 
             'firstname' => [
                 'description' => 'Firstname of the user',

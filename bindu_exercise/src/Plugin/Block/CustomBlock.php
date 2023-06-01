@@ -18,12 +18,21 @@
      * {@inheritdoc}                                   #provides a docblock for the "build" function and indicates that it is overriding the "build" function of the "BlockBase" class.
      */
 
-    public function build() { // render function #declares a new public function named "build" for the "CustomBlock" class.
+  //   public function build() {                         #declares a new public function named "build" for the "CustomBlock" class.
 
 
 
-        $form =\Drupal::formBuilder()->getForm('\Drupal\bindu_exercise\Form\CustomForm');
-        return $form;
-      }
+  //       $form =\Drupal::formBuilder()->getForm('\Drupal\bindu_exercise\Form\CustomForm'); #This line retrieves the form object for the custom form class, "\Drupal\bindu_exercise\Form\CustomForm", using the form builder service.
+  //       return $form;
+  //     }
 
+  // }
+  public function build() {                         #declares a new public function named "build" for the "CustomBlock" class.
+
+
+
+    $form =\Drupal::formBuilder()->getForm('\Drupal\bindu_exercise\Form\CustomConfigForm'); #This line retrieves the form object for the custom form class, "\Drupal\bindu_exercise\Form\CustomForm", using the form builder service.
+    return $form;
   }
+
+}

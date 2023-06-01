@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\custom_events\EventSubscriber;
+namespace Drupal\bindu_exercise\EventSubscriber;
 
 use Drupal\custom_events\Event\UserLoginEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -8,7 +8,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * Class UserLoginSubscriber.
  *
- * @package Drupal\custom_events\EventSubscriber
+ * @package Drupal\bindu_exercise\EventSubscriber
  */
 class UserLoginSubscriber implements EventSubscriberInterface {
 
@@ -25,7 +25,7 @@ class UserLoginSubscriber implements EventSubscriberInterface {
   /**
    * Subscribe to the user login event dispatched.
    *
-   * @param \Drupal\custom_events\Event\UserLoginEvent $event
+   * @param \Drupal\bindu_exercise\Event\UserLoginEvent $event
    *   Our custom event object.
    */
   public function onUserLogin(UserLoginEvent $event) {
@@ -38,8 +38,9 @@ class UserLoginSubscriber implements EventSubscriberInterface {
       ->execute()
       ->fetchField();
 
-    \Drupal::messenger()->addStatus(t('Welcome, your account was created on %created_date.', [
+    \Drupal::messenger()->addStatus(t('Hello, your account was created on %created_date.', [
       '%created_date' => $dateFormatter->format($account_created, 'short'),
     ]));
   }
+
 }

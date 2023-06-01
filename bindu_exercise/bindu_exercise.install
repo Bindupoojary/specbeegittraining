@@ -1,36 +1,32 @@
 <?php
 // update => module reinstallation not required.
 /**
- * implements hook_schema().
+ * Implements hook_schema().
  */
-
-function bindu_exercise_schema() {                       
-    $schema['user_task'] = [                             
-        'description' => 'Stores user details',          
-        'fields' => [                                    
-
-            'firstname' => [
-                'description' => 'Firstname of the user',
-                'type' => 'varchar',
-                'length' => 60,
-                'not null' => true,
+function bindu_exercise_schema() {
+    $schema['user_task'] = [
+        'description' => 'Stores user details', // Description of the table.
+        'fields' => [
+            'firstname' => [ // Field for storing the firstname of the user.
+                'description' => 'Firstname of the user', // Description of the field.
+                'type' => 'varchar', // Field type: varchar (variable-length string).
+                'length' => 60, // Maximum length of the field.
+                'not null' => true, // Field is required and cannot be NULL.
             ],
-            'email' => [
-                'description' => 'Email of the user',
-                'type' => 'varchar',
-                'length' => 60,
-                'not null' => true,
+            'email' => [ // Field for storing the email of the user.
+                'description' => 'Email of the user', // Description of the field.
+                'type' => 'varchar', // Field type: varchar (variable-length string).
+                'length' => 60, // Maximum length of the field.
+                'not null' => true, // Field is required and cannot be NULL.
             ],
-            'gender' => [
-                'description' => 'gender of the user',
-                'type' => 'varchar',
-                'length' => 60,
-                'not null' => true,
+            'gender' => [ // Field for storing the gender of the user.
+                'description' => 'Gender of the user', // Description of the field.
+                'type' => 'varchar', // Field type: varchar (variable-length string).
+                'length' => 60, // Maximum length of the field.
+                'not null' => true, // Field is required and cannot be NULL.
             ],
         ],
-        'primary key' => ['firstname'],
+        'primary key' => ['firstname'], // Primary key for the table.
     ];
-    return $schema;
+    return $schema; // Return the schema definition.
 }
-
-

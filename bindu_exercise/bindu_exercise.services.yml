@@ -7,5 +7,5 @@ services:                          # defining a new service
     services:
   custom_events_user_login:
     class: '\Drupal\bindu_exercise\EventSubscriber\UserLoginSubscriber'
-    tags:
+    tags:                                                              #tag indicates that the service is an event subscriber
       - { name: 'event_subscriber' }

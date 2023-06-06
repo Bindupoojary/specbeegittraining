@@ -2,7 +2,7 @@
 
 namespace Drupal\bindu_exercise\EventSubscriber;
 
-use Drupal\custom_events\Event\UserLoginEvent; // Import the UserLoginEvent class from the custom_events module.
+use Drupal\custom_events\Event\UserLoginEvent; // Import the UserLoginEvent class .
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**

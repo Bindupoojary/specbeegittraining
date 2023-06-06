@@ -93,10 +93,10 @@ class DependentForm extends FormBase {
     $triggering_element_name = $triggering_element['#name'];
 
     if ($triggering_element_name === 'category') {
-      // Return the available items dropdown to update via AJAX.
+                                                                 // Return the available items dropdown to update via AJAX.
       return $form['availableitems'];
     } elseif ($triggering_element_name === 'availableitems') {
-      // Return the district dropdown to update via AJAX.
+                                                                             // Return the district dropdown to update via AJAX.
       return $form['district'];
     }
   }

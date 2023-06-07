@@ -4,26 +4,6 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityInterface;
 
 
-/**
- * @file
- * Contains bindu_exercise.module.
- */
-
- use Drupal\bindu_exercise\Event\UserLoginEvent;
-
- /**
-  * Implements hook_user_login().
-  */
- function bindu_exercise_user_login($account) {
-   // Instantiate our event.
-   $event = new UserLoginEvent($account);
-
-   // Get the event_dispatcher service and dispatch the event.
-   $event_dispatcher = \Drupal::service('event_dispatcher');
-   $event_dispatcher->dispatch($event, UserLoginEvent::EVENT_NAME);
- }
-
-
 
 //  function bindu_exercise_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 //     $route = \Drupal::service('bindu_exercise')->getName();
@@ -45,3 +25,19 @@ function bindu_exercise_theme($existing, $type, $theme, $path) {   # hook implem
         ];
 
     }
+
+    function bindu_exercise_page_attachments_alter(array &$attachments) {
+        $route_match = \Drupal::routeMatch();
+        $route_name = $route_match->getRouteName();
+
+        // Check if the current route is admin.content.comment.
+        if ($route_name === 'comment.admin') {
+          // Modify or add attachments as needed.
+          $attachments['#attached']['library'][] = 'bindu_exercise/css_lib';
+
+        }
+        elseif($route_name=='entity.node.canonical'){
+          $attachments['#attached']['library'][] = 'bindu_exercise/css_lib';
+
+        }
+      }

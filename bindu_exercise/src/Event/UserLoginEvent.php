@@ -23,10 +23,11 @@ class UserLoginEvent extends Event {
    * Constructs the object.
    *
    * @param \Drupal\user\UserInterface $account
-   *    The account of the user logged in.
+   *   The account of the user logged in.
    */
   public function __construct(UserInterface $account) {
     $this->account = $account;
+
   }
 
 }

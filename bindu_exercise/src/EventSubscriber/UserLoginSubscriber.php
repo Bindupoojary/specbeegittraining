@@ -2,7 +2,8 @@
 
 namespace Drupal\bindu_exercise\EventSubscriber;
 
-use Drupal\custom_events\Event\UserLoginEvent; // Import the UserLoginEvent class .
+// Import the UserLoginEvent class .
+use Drupal\custom_events\Event\UserLoginEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -10,15 +11,20 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  *
  * @package Drupal\bindu_exercise\EventSubscriber
  */
+
+/**
+ * Event that executes when a user logs in.
+ */
 class UserLoginSubscriber implements EventSubscriberInterface {
 
   /**
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
-    // Return an array mapping the event name to the method that should handle it.
+    // Return an array mapping the event name to the method.
     return [
-      UserLoginEvent::EVENT_NAME => 'onUserLogin', // When UserLoginEvent is triggered, call the onUserLogin method.
+    // When UserLoginEvent is triggered, call the onUserLogin method.
+      UserLoginEvent::EVENT_NAME => 'onUserLogin',
     ];
   }
 
@@ -30,8 +36,10 @@ class UserLoginSubscriber implements EventSubscriberInterface {
    */
   public function onUserLogin(UserLoginEvent $event) {
     // Perform actions when the user login event is triggered.
-    $database = \Drupal::database(); // Access the database service.
-    $dateFormatter = \Drupal::service('date.formatter'); // Access the date formatter service.
+    // Access the database service.
+    $database = \Drupal::database();
+    // Access the date formatter service.
+    $dateFormatter = \Drupal::service('date.formatter');
 
     // Fetch the account creation date for the logged-in user.
     $account_created = $database->select('users_field_data', 'ud')

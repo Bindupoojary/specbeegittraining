@@ -1,24 +1,38 @@
 <?php
 
-namespace Drupal\bindu_exercise\Controller;      # defining the namespace for the CustomForm class, which is located in the Form directory of the 'bindu_exercise' module.
+namespace Drupal\bindu_exercise\Controller;
 
-use Drupal\Core\Controller\ControllerBase;        #This class serves as a base class for creating controllers in Drupal
+// This class serves as a base class for creating controllers in Drupal.
+use Drupal\Core\Controller\ControllerBase;
 
-class CustomController extends ControllerBase {    #class CustomController extends ControllerBase
+/**
+ * Its a Controller.
+ */
+class CustomController extends ControllerBase {
+  // Class CustomController extends ControllerBase.
 
-    public function hello() {                  #This is a public method named hello which does not take any arguments.
-      $route = \Drupal::service('bindu_exercise')->getName();
-      print_r($route);
-      //exit;
-        $hexcode = $this->configuration['hexcode'];   #his assigns the value of the hexcode  to a variable $hexcode.
-        $element = [                               #his creates an array called $element with three keys: #theme, #text, and #hexcode.
-          '#theme' => "block_plugin_template",        #The #theme key specifies the theme hook name,
-          '#text' =>  "welcome all",                  #text contains the text to be displayed
-          '#hexcode' => $this->configuration['hexcode'],  ##hexcode contains the value of $hexcode
-        ];
-          return $element;                      #return the array
+  /**
+   * Hello function.
+   */
+  public function hello() {
+    // This is a public method named hello which does not take any arguments.
+    $route = \Drupal::service('bindu_exercise')->getName();
+    print_r($route);
+    // exit;.
+    // This assigns the value of the hexcode  to a variable $hexcode.
+    $hexcode = $this->configuration['hexcode'];
+    // Creates an array called $element with three keys:#theme, #text,#hexcode.
+    $element = [
+    // The #theme key specifies the theme hook name,.
+      '#theme' => "block_plugin_template",
+    // Text contains the text to be displayed.
+      '#text' => "welcome all",
+    // Hexcode contains the value of $hexcode.
+      '#hexcode' => $this->configuration['hexcode'],
+    ];
+    // Return the array.
+    return $element;
 
-    }
-
+  }
 
 }

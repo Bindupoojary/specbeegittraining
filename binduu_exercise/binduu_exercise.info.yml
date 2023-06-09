@@ -1,0 +1,5 @@
+name: 'binduu exercise'                # Name of the module.
+description: 'exercise description'    # Description about the module.
+type: module                           # Mention the type of folder.
+core_version_requirement: ^9 || ^10    # Version of Drupal core that the module requires.
+# version: 9.x-1.0                       # This module is of version 1.0 and is compatible with Drupal 9.x.

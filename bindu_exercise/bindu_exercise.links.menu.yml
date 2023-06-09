@@ -1,5 +1,0 @@
-example.admin:
-  title: 'controller menu'                              #new menu title
-  description: 'controller menu created for the site'   #description for new menu
-  route_name: 'bindu_exercise.hello_world'              #the path ,where the menu should take on click
-  menu_name: admin                                      #creating under admin menu

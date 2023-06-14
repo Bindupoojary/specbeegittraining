@@ -2,23 +2,44 @@
 
 namespace Drupal\binduu_exercise\Controller;
 
-// Defines the namespace for the controller.
-// Imports the ControllerBase class from the "Drupal\Core\Controller" namespace.
-// This allows us to extend the ControllerBase class in our custom controller.
+// Base class for controllerdemo.
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\binduu_exercise\CustomService;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Custom Controller class.
+ * To include custom_service.
  */
 class CustomController extends ControllerBase {
+  /**
+   * The customservice.
+   *
+   * @var \Drupal\binduu_exercise\CustomService
+   */
+  protected $customService;
 
+  /**
+   * Dependency injection.
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('custom_service')
+    );
+  }
+
+  /**
+   * Constructor.
+   */
+  public function __construct(CustomService $customService) {
+    $this->customService = $customService;
+  }
   /**
    * This method gets called when the route is matched.
    */
   public function hello() {
     // getName() method to retrieve data.
     // And Drupal service container called to get an instance of custom service.
-    $data = \Drupal::service("custom_service")->getName();
+    $data = $this->customService->getName();
     return [
           // The theme to be rendered.
       '#theme' => "block_plugin_template",

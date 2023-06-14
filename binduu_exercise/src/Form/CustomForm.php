@@ -2,65 +2,33 @@
 
 namespace Drupal\binduu_exercise\Form;
 
+// Defines the namespace for the form class.
 use Drupal\Core\Form\FormBase;
+// The FormBase class is the base class for forms.
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\Core\Database\Connection;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
+// FormStateInterface interface provides way to interact.
+// With the state of the form during processing and validation.
 /**
  * Form Interactions.
  */
 class CustomForm extends FormBase {
 
   /**
-   * The messenger service.
-   *
-   * @var \Drupal\Core\Messenger\MessengerInterface
-   */
-  protected $messenger;
-
-  /**
-   * The database service.
-   *
-   * @var \Drupal\Core\Database\Connection
-   */
-  protected $database;
-
-  /**
-   * CustomForm constructor.
-   *
-   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
-   *   The messenger service.
-   * @param \Drupal\Core\Database\Connection $database
-   *   The database service.
-   */
-  public function __construct(MessengerInterface $messenger, Connection $database) {
-    $this->messenger = $messenger;
-    $this->database = $database;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('messenger'),
-      $container->get('database')
-    );
-  }
-
-  /**
-   * {@inheritdoc}
+   * Gets form id.
    */
   public function getFormId() {
+    // Sets the unique ID of the form.
     return 'custom_form_user_details';
+    // The ID is set to 'custom_form_user_details'.
   }
 
   /**
-   * {@inheritdoc}
+   * Builds generic form.
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    // Used to build the form.
+    // Input fields.
     $form['firstname'] = [
       '#type' => 'textfield',
       '#title' => 'First Name',
@@ -84,18 +52,25 @@ class CustomForm extends FormBase {
       '#value' => 'Submit',
     ];
     return $form;
+
   }
 
   /**
-   * {@inheritdoc}
+   * Handles the form submission.
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->messenger->addMessage("User Details Submitted Successfully");
-    $this->database->insert("user_details")->fields([
+    // To handle the form submission.
+    \Drupal::messenger()->addMessage("User Details Submitted Successfully");
+    \Drupal::database()->insert("user_details")->fields([
+          // Used to initialize the  database service.
       'firstname' => $form_state->getValue("firstname"),
+          // Used to get the first name value.
       'email' => $form_state->getValue("email"),
+          // Used to get the email value.
       'gender' => $form_state->getValue("gender"),
+          // Used to get the gender value.
     ])->execute();
+
   }
 
 }

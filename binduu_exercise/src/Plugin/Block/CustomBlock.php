@@ -19,10 +19,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * admin_label = "Custom Plugin Block"
  * )
  */
-class CustomBlock extends BlockBase implements ContainerFactoryPluginInterface{
+class CustomBlock extends BlockBase implements ContainerFactoryPluginInterface {
   // Base which comes from the core.
 
-/**
+  /**
    * The form builder service.
    *
    * @var \Drupal\Core\Form\FormBuilderInterface
@@ -56,7 +56,6 @@ class CustomBlock extends BlockBase implements ContainerFactoryPluginInterface{
       $container->get('form_builder')
     );
   }
-
 
   /**
    * {@inheritdoc}

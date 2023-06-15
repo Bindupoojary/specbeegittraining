@@ -4,29 +4,28 @@ namespace Drupal\binduu_exercise\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Link;
-use Drupal\node\Entity\Node;
-use Drupal\Core\Database\Database;
 use Drupal\Core\Database\Connection;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-
+/**
+ * Dropdown form.
+ */
 class DropdownForm extends FormBase {
 
- /**
+  /**
    * The database service.
    *
    * @var \Drupal\Core\Database\Connection
    */
   protected $database;
 
-   /**
+  /**
    * CustomForm constructor.
    *
    * @param \Drupal\Core\Database\Connection $database
    *   The database service.
    */
-  public function __construct( Connection $database) {
+  public function __construct(Connection $database) {
     $this->database = $database;
   }
 
@@ -39,7 +38,6 @@ class DropdownForm extends FormBase {
     );
   }
 
-
   /**
    * {@inheritdoc}
    */
@@ -51,13 +49,13 @@ class DropdownForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-        $country_id=$form_state->getValue("country");
-        $state_id=$form_state->getValue("state");
+    $country_id = $form_state->getValue("country");
+    $state_id = $form_state->getValue("state");
     $form['country'] = [
       '#type' => 'select',
-      '#title' => $this->t(' Select Country'),
+      '#title' => ' Select Country',
       '#options' => $this->getCountryOptions(),
-      '#empty_option' => $this->t('- Select -'),
+      '#empty_option' => '- Select -',
       '#ajax' => [
         'callback' => [$this, 'ajaxStateDropdownCallback'],
         'wrapper' => 'state-wrapper',
@@ -71,11 +69,11 @@ class DropdownForm extends FormBase {
 
     $form['state'] = [
       '#type' => 'select',
-      '#title' => $this->t(' Select State'),
-      '#options' => $this->getstateOptions( $country_id),
+      '#title' => ' Select State',
+      '#options' => $this->getstateOptions($country_id),
       '#prefix' => '<div id="state-wrapper">',
       '#suffix' => '</div>',
-      '#empty_option' => $this->t('- Select -'),
+      '#empty_option' => '- Select -',
       '#disabled' => FALSE,
       '#ajax' => [
         'callback' => [$this, 'ajaxDistrictDropdownCallback'],
@@ -90,11 +88,11 @@ class DropdownForm extends FormBase {
 
     $form['district'] = [
       '#type' => 'select',
-      '#title' => $this->t(' Select District'),
+      '#title' => ' Select District',
       '#options' => $this->getDistrictsByState($state_id),
       '#prefix' => '<div id="district-wrapper">',
       '#suffix' => '</div>',
-      '#empty_option' => $this->t('- Select -'),
+      '#empty_option' => '- Select -',
       '#disabled' => FALSE,
     ];
 
@@ -137,15 +135,19 @@ class DropdownForm extends FormBase {
 
     return $options;
   }
-  private function getstateOptions( $country_id){
 
-    // Fetch the states for the selected country
+  /**
+   * Retrieve state options.
+   */
+  private function getstateOptions($country_id) {
+
+    // Fetch the states for the selected country.
     $query = $this->database->select('state', 's');
     $query->fields('s', ['id', 'name']);
-    $query->condition('s.country_id',  $country_id);
+    $query->condition('s.country_id', $country_id);
     $result = $query->execute();
 
-    // Iterate over the result to retrieve the state information
+    // Iterate over the result to retrieve the state information.
     $states = [];
     foreach ($result as $row) {
       $states[$row->id] = $row->name;
@@ -153,7 +155,10 @@ class DropdownForm extends FormBase {
     return $states;
   }
 
-  function getDistrictsByState( $state_id) {
+  /**
+   * Get district options.
+   */
+  public function getDistrictsByState($state_id) {
     $query = $this->database->select('district', 'd');
     $query->fields('d', ['id', 'name']);
     $query->condition('d.state_id', $state_id);
@@ -166,4 +171,5 @@ class DropdownForm extends FormBase {
 
     return $districts;
   }
+
 }

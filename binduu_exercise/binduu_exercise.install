@@ -136,3 +136,123 @@ function binduu_exercise_update_100901() {
   }
   \Drupal::messenger()->addMessage('page titles updated');
 }
+
+
+/**
+ * Implements hook_update_N().
+ *
+ * Create the tables for country, state, and district.
+ */
+function binduu_exercise_update_100413() {
+  $schema = Database::getConnection()->schema();
+  $connection = Database::getConnection();
+
+  // Create country table.
+  if (!$schema->tableExists('country')) {
+    $table = [
+      'description' => 'Country table',
+      'fields' => [
+        'id' => [
+          'type' => 'serial',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+        ],
+        'name' => [
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+        ],
+      ],
+      'primary key' => ['id'],
+    ];
+    $schema->createTable('country', $table);
+  }
+
+  // Create state table.
+  if (!$schema->tableExists('state')) {
+    $table = [
+      'description' => 'State table',
+      'fields' => [
+        'id' => [
+          'type' => 'serial',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+        ],
+        'country_id' => [
+          'type' => 'int',
+          'not null' => TRUE,
+          'description' => 'Foreign key to country table',
+        ],
+        'name' => [
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+        ],
+      ],
+      'primary key' => ['id'],
+      'foreign keys' => [
+        'country_id' => [
+          'table' => 'country',
+          'columns' => ['country_id' => 'id'],
+        ],
+      ],
+    ];
+    $schema->createTable('state', $table);
+  }
+
+  // Create district table.
+  if (!$schema->tableExists('district')) {
+    $table = [
+      'description' => 'District table',
+      'fields' => [
+        'id' => [
+          'type' => 'serial',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+        ],
+        'state_id' => [
+          'type' => 'int',
+          'not null' => TRUE,
+          'description' => 'Foreign key to state table',
+        ],
+        'name' => [
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+        ],
+      ],
+      'primary key' => ['id'],
+      'foreign keys' => [
+        'state_id' => [
+          'table' => 'state',
+          'columns' => ['state_id' => 'id'],
+        ],
+      ],
+    ];
+    $schema->createTable('district', $table);
+  }
+
+  // Insert values into the country table.
+  $connection->insert('country')
+    ->fields(['name'])
+    ->values(['India'])
+    ->values(['USA'])
+    ->execute();
+
+  // Insert values into the state table.
+  $connection->insert('state')
+    ->fields(['country_id', 'name'])
+    ->values([1, 'Karnataka'])
+    ->values([1, 'kerala'])
+    ->values([2, 'Texas'])
+    ->execute();
+
+  // Insert values into the district table.
+  $connection->insert('district')
+    ->fields(['state_id', 'name'])
+    ->values([1, 'Bengaluru'])
+    ->values([1, 'mysuru'])
+    ->values([2, 'Austin'])
+    ->values([2, 'Houston'])
+    ->execute();
+}

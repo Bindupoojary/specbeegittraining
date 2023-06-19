@@ -29,17 +29,17 @@ class DrushCommandsDemo extends DrushCommands {
   }
 
   /**
-   * Command that returns a list of all blocked users.
+   * Command that returns title.
    *
    * @field-labels
    *  id: Node Id
    *  title: Title
    * @default-fields id,title
    *
-   * @usage drush-helpers: get-title
+   * @usage node-get-title
    *   Returns all get-title
    *
-   * @command drush-helpers:get-title
+   * @command node-get-title
    * @aliases get-title
    *
    * @return \Consolidation\OutputFormatters\StructuredData\RowsOfFields
@@ -47,7 +47,7 @@ class DrushCommandsDemo extends DrushCommands {
    */
   public function drushDemo() {
     // It will load nodes of type basic page.
-    $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['type' => 'page']);
+    $nodes = $this->entityManager->getStorage('node')->loadByProperties(['type' => 'page']);
     $rows = [];
     foreach ($nodes as $node) {
       $rows[] = [

@@ -1,5 +1,5 @@
-name: 'custom template theme'
-description: 'custom template theme'
+name: Custom theme
+description: Custom theme creation for demo
 type: theme
 core_version_requirement: ^9 || ^10
 base theme: olivero

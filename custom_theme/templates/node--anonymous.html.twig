@@ -96,6 +96,7 @@
           {{ author_picture }}
         </div>
       {% endif %}
+      <h1> hello </h1>
         <span{{ author_attributes }}>
           {{ 'By'|t }} {% apply spaceless %}{{ author_name }}{% endapply %}, {{ date }}
         </span>
@@ -103,7 +104,7 @@
       </div>
     {% endif %}
   </header>
-  <h1>anonymous user page </h1>
+  <h1>hello</h1>
   <div{{ content_attributes.addClass('node__content', layout) }}>
     {# Comments not part of content, so they won't inherit .text-content styles. #}
     {{ content|without('comment') }}

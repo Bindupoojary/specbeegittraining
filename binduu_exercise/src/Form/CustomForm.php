@@ -7,6 +7,8 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Database\Connection;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\InvokeCommand;
 
 /**
  * Form Interactions.
@@ -61,6 +63,7 @@ class CustomForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    $form['#attached']['library'][] = "binduu_exercise/customjsform";
     $form['firstname'] = [
       '#type' => 'textfield',
       '#title' => 'First Name',
@@ -79,12 +82,49 @@ class CustomForm extends FormBase {
         'female' => 'Female',
       ],
     ];
+    $form['permanent'] = [
+      '#type' => 'textfield',
+      '#title' => 'permanent',
+      '#placeholder' => 'permanent address',
+    ];
+    $form['check'] = [
+      '#type' => 'checkbox',
+      '#title' => 'same as permanent',
+    ];
+
+    $form['temporary'] = [
+      '#type' => 'textfield',
+      '#placeholder' => 'temporary address',
+      '#title' => 'temporary',
+    ];
+
     $form['submit'] = [
       '#type' => 'submit',
       '#value' => 'Submit',
-    ];
-    return $form;
+      '#ajax' => [
+          'callback' => '::setAjaxSubmit',
+      ],
+  ];
+
+  return $form;
+}
+
+public function setAjaxSubmit() {
+  $response = new AjaxResponse();
+  $response->addCommand(new InvokeCommand("html", 'datacheck'));
+  return $response;
+}
+
+
+/**
+ * {@inheritdoc}
+ */
+public function validateForm(array &$form, FormStateInterface $form_state) {
+  $email = $form_state->getValue('email');
+  if (!preg_match('/^\S+@\S+\.\S+$/', $email)) {
+    $form_state->setErrorByName('email', $this->t('Invalid email address.'));
   }
+}
 
   /**
    * {@inheritdoc}

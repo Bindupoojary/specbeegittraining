@@ -95,6 +95,10 @@ class DropdownForm extends FormBase {
       '#empty_option' => '- Select -',
       '#disabled' => FALSE,
     ];
+    $form['submit'] = [
+      '#type' => 'submit',
+      '#value' => 'Submit',
+    ];
 
     return $form;
   }

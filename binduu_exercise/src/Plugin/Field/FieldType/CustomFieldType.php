@@ -2,11 +2,13 @@
 
 namespace Drupal\binduu_exercise\Plugin\Field\FieldType;
 
+// Used as baseclass.
 use Drupal\Core\Field\FieldItemBase;
+// Interface is used for storage.
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
-// Field definition namespace.
+// Interface is used for form.
 use Drupal\Core\Form\FormStateInterface;
-// Whenever there is form in drupal we call class FormStateInterface.
+// Provides the defintion for primitive data types.
 use Drupal\Core\TypedData\DataDefinition;
 
 /**
@@ -17,19 +19,18 @@ use Drupal\Core\TypedData\DataDefinition;
  *   label = @Translation("Custom Field Type"),
  *   description = @Translation("Desc for Custom Field Type"),
  *   category = @Translation("Text"),
+ *   default_widget = "custom_field_widget",
+ *   default_formatter = "custom_field_formatter",
  * )
  */
-
-/**
- * Above is the annotation to implement the plugin feature.
- */
 class CustomFieldType extends FieldItemBase {
+  // Extending base class.
 
   /**
    * {@inheritdoc}
    */
   public static function schema(FieldStorageDefinitionInterface $field_definition) {
-    // Schema is going to create a table in database.
+    // Creating a table in db.
     return [
       'columns' => [
         'value' => [
@@ -44,25 +45,27 @@ class CustomFieldType extends FieldItemBase {
    * {@inheritdoc}
    */
   public static function defaultStorageSettings() {
-    // Giving default value configurably giving the length of varchar field .
     return [
       'length' => 255,
+    // Default value for length is s set to 255.
     ] + parent::defaultStorageSettings();
-    // When extending feature to use parent class(cardinality unlimited).
-    // We are passing our field along with the existing field.
   }
 
   /**
    * {@inheritdoc}
    */
   public function storageSettingsForm(array &$form, FormStateInterface $form_state, $has_data) {
-    // What ever the changes happen in database that will be included here .
+    // Function for storagesetting that appears when we add a field.
     $element = [];
+
+    // Length for the field.
     $element['length'] = [
-          // Mention for what the element is.
       '#type' => 'number',
+    // Title.
       '#title' => t("Length of your text"),
+    // Mandatory to be filled.
       '#required' => TRUE,
+    // Will return the length value.
       '#default_value' => $this->getSetting("length"),
     ];
     return $element;
@@ -72,24 +75,25 @@ class CustomFieldType extends FieldItemBase {
    * {@inheritdoc}
    */
   public static function defaultFieldSettings() {
-    // Default field settings for the field type.
+    // Function to define a default field.
     return [
+    // Default value is set.
       'moreinfo' => "More info default value",
+    // This return the default field setting.
     ] + parent::defaultFieldSettings();
-    // Requried, help text that all will be added.
   }
 
   /**
    * {@inheritdoc}
    */
   public function fieldSettingsForm(array $form, FormStateInterface $form_state) {
-    // Whenever there is a change in node add and edit form.
-    // That will be configured in this form.
     $element = [];
     $element['moreinfo'] = [
+    // Moreinfo of type textfield.
       '#type' => 'textfield',
       '#title' => 'More information about this field',
       '#required' => TRUE,
+    // Will retuen default value of moreinfo.
       '#default_value' => $this->getSetting("moreinfo"),
     ];
     return $element;
@@ -99,8 +103,9 @@ class CustomFieldType extends FieldItemBase {
    * {@inheritdoc}
    */
   public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
-    // The properties of the field type type of field and label for it.
+    // Function to define field item properties.
     $properties['value'] = DataDefinition::create('string')->setLabel(t("Name"));
+
     return $properties;
   }
 

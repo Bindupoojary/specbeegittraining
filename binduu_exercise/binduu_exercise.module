@@ -6,6 +6,8 @@
  */
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 /**
  * @file
  * Contains binduu_exercise.module.
@@ -48,6 +50,54 @@ function binduu_exercise_theme($existing, $type, $theme, $path) {
 }
 
 /**
+ * Implements hook_entity_view_alter().
+ */
+function binduu_exercise_entity_view_alter(array &$build, EntityInterface $entity, EntityViewDisplayInterface  $display){
+  if($entity->getEntityTypeId() == "node") {
+    unset($build['body']);
+    $build['markup'] = [
+      '#markup' => "<h2>alter</h2>",
+    ];
+
+  }
+}
+
+/**
+* Implements hook_entity_view().
+*/
+ function binduu_exercise_entity_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
+    // condition entity type = node
+    if($entity->getEntityTypeId() == "node") {
+    $session = \Drupal::request()->getSession();
+    $counts = $session->get("binduu_exercise.node_view_count", []);
+    if (!isset($counts[$entity->id()])) {
+        $counts[$entity->id()] = 1;
+    }
+    else {
+        $counts[$entity->id()]++;
+    }
+
+    $session->set("binduu_exercise.node_view_count", $counts);
+  $build['count'] = [
+    '#markup' => "Viewed " . $counts[$entity->id()] . " times",
+    '#cache' => [
+        'max-age' => 0,
+  ],
+  ];
+}
+}
+
+/**
+ * Implements hook_page_attachments_alter().
+ */
+
+ function binduu_exercise_page_attachments_alter(array &$attachments) {
+  $attachments['#attached']['library'][] = 'binduu_exercise/css_lib';
+  $attachments['#attached']['drupalSettings']['binduu_exercise']['color_body'] = "testing";
+
+}
+
+/**
  * Implements hook_user_login().
  */
 function binduu_exercise_user_login($account) {
@@ -61,9 +111,78 @@ function binduu_exercise_user_login($account) {
   // Dispatching the event and passing the argument of event object to this.
 }
 
+
+
 /**
- * Implements hook_page_attachments_alter().
+ * @file
+ * Contains binduu_exercise.module..
  */
-function binduu_exercise_page_attachments_alter(array &$attachments) {
-  $attachments['#attached']['library'][] = 'binduu_exercise/css_lib';
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function binduu_exercise_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the custom_mail module.
+    case 'help.page.custom_mail':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('How to send an email programmatically') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+
+/**
+ * Implements hook_mail().
+ */
+function binduu_exercise_mail($key, &$message, $params) {
+  $options = array(
+    'langcode' => $message['langcode'],
+  );
+
+  switch ($key) {
+    case 'create_page':
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = t('Page created: @title', array('@title' => $params['node_title']), $options);
+      $message['body'][] = $params['message'];
+      break;
+  }
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+function binduu_exercise_entity_insert(Drupal\Core\Entity\EntityInterface $entity) {
+
+  if ($entity->getEntityTypeId() !== 'node' || ($entity->getEntityTypeId() === 'node' && $entity->bundle() !== 'page')) {
+    return;
+  }
+
+  $mailManager = \Drupal::service('plugin.manager.mail');
+
+  $module = 'binduu_exercise';
+  $key = 'create_page';
+  $to = \Drupal::currentUser()->getEmail();
+  $params['message'] = $entity->get('body')->value;
+  $params['node_title'] = $entity->label();
+  $langcode = \Drupal::currentUser()->getPreferredLangcode();
+  $send = true;
+
+  $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+  if ($result['result'] !== true) {
+
+    \Drupal::messenger()->addMessage(t('There was a problem sending your message and it was not sent'),'error');
+    //drupal_set_message(t('There was a problem sending your message and it was not sent.'), 'error');
+  }
+  else {
+
+    \Drupal::messenger()->addMessage(t('There was a problem sending your message and it was not sent'),'status');
+   // drupal_set_message(t('Your message has been sent.'));
+  }
+
 }

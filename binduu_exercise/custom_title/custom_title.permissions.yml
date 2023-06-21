@@ -1,5 +1,0 @@
-Node permission:
-  title : 'permission title'
-  description: 'permission description'
-permission_callbacks:
-  - \Drupal\custom_title\NodePermissions::nodePermissions

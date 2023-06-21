@@ -61,6 +61,7 @@ function binduu_exercise_schema() {
     'primary key' => ['id'],
   ];
   return $schema;
+
 }
 
 /*

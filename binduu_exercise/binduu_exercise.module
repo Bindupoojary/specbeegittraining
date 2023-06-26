@@ -8,6 +8,7 @@
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+
 /**
  * @file
  * Contains binduu_exercise.module.
@@ -21,16 +22,34 @@ use Drupal\binduu_exercise\Event\UserLoginEvent;
 /**
  * Binduu_exercise_form_alter():  used to alter form.
  */
-function binduu_exercise_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-
-  // The $route = \Drupal::routeMatch()->getRouteName().
-  // Print_r($route).
-  // Exit.
-  $data = \Drupal::service('custom_service')->getName();
-  // Returns the name of a configuration form
-  // Print_r($data);
-  // exit;
+function binduu_exercise_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  if ($form_id == "node_page_edit_form") {
+    $helptext = \Drupal::configFactory()->getEditable("binduu_exercise_form.settings")->get("helptext");
+    $node = \Drupal::routeMatch()->getParameter("node"); //type: node object
+    $token_service = \Drupal::token();
+    $hlptxt = $token_service->replace($helptext, ['node'=>$node], ['clear'=>TRUE]);
+    $form['#prefix'] = "<span>" . $hlptxt . "</span>";
+  }
 }
+
+// function binduu_exercise_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+//   // The $route = \Drupal::routeMatch()->getRouteName().
+//   // Print_r($route).
+//   // Exit.
+//   $data = \Drupal::service('custom_service')->getName();
+//   // Returns the name of a configuration form
+//   // Print_r($data);
+//   // exit;
+
+//  if ($form_id == "node_article_edit_form") {
+//     $helptext = \Drupal::configFactory()->getEditable("binduu_exercise_form.settings")->get("helptext");
+//     $node = \Drupal::routeMatch()->getParameter("node"); //type: node object
+//     $token_service = \Drupal::token();
+//     $hlptxt = $token_service->replace($helptext, ['node'=>$node], ['clear'=>TRUE]);
+//     $form['#prefix'] = "<span>" . $hlptxt . "</span>";
+//    }
+// }
 
 /**
  * Implements hook_theme().
@@ -48,6 +67,18 @@ function binduu_exercise_theme($existing, $type, $theme, $path) {
     ],
   ];
 }
+
+/**
+ * Implements hook_entity_presave().
+ */
+
+ function binduu_exercise_entity_presave(EntityInterface $entity){
+  if($entity->getEntityTypeId() == "node"){
+    $entity->set("title", "new values");
+  }
+ }
+
+
 
 /**
  * Implements hook_entity_view_alter().
@@ -93,7 +124,7 @@ function binduu_exercise_entity_view_alter(array &$build, EntityInterface $entit
 
  function binduu_exercise_page_attachments_alter(array &$attachments) {
   $attachments['#attached']['library'][] = 'binduu_exercise/css_lib';
-  $attachments['#attached']['drupalSettings']['binduu_exercise']['color_body'] = "testing";
+  $attachments['#attached']['drupalSettings']['binduu_exercise']['color_body'] = "new message";
 
 }
 

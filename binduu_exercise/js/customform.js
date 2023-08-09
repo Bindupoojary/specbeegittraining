@@ -1,46 +1,24 @@
-(function ($, Drupal , drupalSettings) {
+(function (window, document, drupalSettings) {
+  function datacheck() {
+    console.log("form working");
+    document.querySelector(".custom-form-user-details").submit();
+  }
 
-    $.fn.datacheck = function() {
-        console.log(" form working");
-        $(".custom-form-user-details").submit();
-    };
+  var checkbox = document.getElementById("edit-check");
+  var temporaryAddressFields = document.querySelectorAll(".form-item-temporary");
 
-    // $(document).ready(function(){
-    //     $("#edit-check").click(function(){
-    //       $("#edit-temporary").hide();
-    //     });
-    //   });
-
-
-
-      $(document).ready(function() {
-
-        var checkbox = $('#edit-check');
-        var temporaryAddressFields = $('.form-item-temporary');
-
-        checkbox.on('change', function() {
-              if ($(this).is(':checked')) {
-            temporaryAddressFields.hide();
-          } else {
-
-            temporaryAddressFields.show();
-          }
-        });
+  checkbox.addEventListener("change", function () {
+    if (this.checked) {
+      temporaryAddressFields.forEach(function (field) {
+        field.style.display = "none";
       });
+    } else {
+      temporaryAddressFields.forEach(function (field) {
+        field.style.display = "block";
+      });
+    }
+  });
 
-      Drupal.behaviors.MyModuleBehavior = {
-        attach: function(context, settings) {
-          // get color_body value with "drupalSettings.mymodule.color_body"
-            var color_body = drupalSettings.binduu_exercise.color_body;
-            console.log(color_body)
-            $('body').css('background', color_body);
-        }
-    };
-
-
-
-
-}(jQuery, Drupal, drupalSettings));
-
-
-
+  var colorBody = drupalSettings.binduu_exercise.color_body;
+  document.body.style.background = colorBody;
+})(window, document, drupalSettings);
